@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using api2.models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace api2.Data
         {
         }
         public DbSet<product> products { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

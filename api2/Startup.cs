@@ -33,6 +33,7 @@ namespace api2
                 Configuration.GetConnectionString("MilanoteApitest")));
             services.AddControllers();
             services.AddScoped<ProductRepos, IProductRepos>();
+            services.AddScoped<UserRepos, IUserRepos>();
             services.AddCors(options => {
                 options.AddPolicy("_myAllowSpecificOrigins", builder =>
 builder.AllowAnyOrigin()

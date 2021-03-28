@@ -38,12 +38,14 @@ namespace api2.Controllers
         public ActionResult<product> update(product p)
         {
             Iproductrepo.update(p);
+
            return Ok();
         } 
         [HttpPost]
         public ActionResult<product> Create(product p)
         {
             Iproductrepo.create(p);
+
            return Ok();
         } 
         [HttpDelete("{Id}")]
