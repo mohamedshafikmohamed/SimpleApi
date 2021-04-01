@@ -23,6 +23,15 @@ namespace api2.models
         {
           return  db.Assigntasks.Where(x => x.TaskId == TaskId).ToList();
         }
+        public void AddAssignBoard(AssignBoard assignBoard)
+        {
+            db.AssignBoards.Add(assignBoard);
+            db.SaveChanges();
+        }
+        public IEnumerable<AssignBoard> GetAssignBoard(int BoardId)
+        {
+          return  db.AssignBoards.Where(x => x.BoardId == BoardId).ToList();
+        }
        
 
         public void createTask(Task task)
@@ -53,6 +62,14 @@ namespace api2.models
         {
             return db.Tasks.Where(x => x.BoardId == Id).ToList();
         }
+        public IEnumerable<Note> GetNotesinBoard(int Id)
+        {
+            return db.Notes.Where(x => x.BoardId == Id).ToList();
+        }
+        public IEnumerable<Board> GetBoardsinBoard(int Id)
+        {
+            return db.Boards.Where(x => x.BoardId == Id).ToList();
+        }
 
         public void updateTask(Task task)
         {
@@ -76,6 +93,24 @@ namespace api2.models
         public void DeleteNotes(int id)
         {
             db.Notes.Remove(db.Notes.Find(id));
+            db.SaveChanges();
+        }
+        
+        public void createBoard(Board board)
+        {
+            db.Boards.Add(board);
+            db.SaveChanges();
+        }
+
+        public void updateBoard(Board board)
+        {
+            db.Boards.Update(board);
+            db.SaveChanges();
+        }
+
+        public void DeleteBoard(int id)
+        {
+            db.Boards.Remove(db.Boards.Find(id));
             db.SaveChanges();
         }
     }

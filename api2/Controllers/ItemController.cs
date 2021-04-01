@@ -44,6 +44,18 @@ namespace api2.Controllers
         {
            return Ok(ITaskrepo.GetTasksinBoard(Id));
         } 
+        [HttpGet]
+        [Route("GetNotesinBoard/{Id}")]
+        public ActionResult<api2.models.Note> GetNotesinBoard(int Id)
+        {
+           return Ok(ITaskrepo.GetNotesinBoard(Id));
+        } 
+        [HttpGet]
+        [Route("GetBoardsinBoard/{Id}")]
+        public ActionResult<api2.models.Board> GetBoardsinBoard(int Id)
+        {
+           return Ok(ITaskrepo.GetBoardsinBoard(Id));
+        } 
         [HttpPut]
         public ActionResult<api2.models.Task> updateTask(api2.models.Task task)
         {
@@ -51,6 +63,31 @@ namespace api2.Controllers
 
            return Ok();
         } 
+        [HttpPut]
+        [Route("Note")]
+        public ActionResult<api2.models.Task> updateNote(api2.models.Note note)
+        {
+            ITaskrepo.updateNotes(note);
+
+           return Ok();
+        } 
+        [HttpPut]
+        [Route("Board")]
+        public ActionResult<api2.models.Task> updateBoard(api2.models.Board board)
+        {
+            ITaskrepo.updateBoard(board);
+
+           return Ok();
+        } 
+        [HttpPost]
+        [Route("Board")]
+        public ActionResult<api2.models.Task> CreateBoard(api2.models.Board board)
+        {
+            ITaskrepo.createBoard(board);
+
+           return Ok();
+        } 
+        
         [HttpPost]
         public ActionResult<api2.models.Task> CreateTask(api2.models.Task task)
         {
@@ -78,6 +115,16 @@ namespace api2.Controllers
         public ActionResult<api2.models.Note> DeleteNote(int id)
         {
             ITaskrepo.DeleteNotes(id);
+           return Ok();
+        }
+        [HttpDelete]
+        [Route("Board/{Id}")]
+        public ActionResult<api2.models.Board> DeleteBoard(int id)
+        {
+           
+                ITaskrepo.DeleteBoard(id);
+
+           
            return Ok();
         }
     }

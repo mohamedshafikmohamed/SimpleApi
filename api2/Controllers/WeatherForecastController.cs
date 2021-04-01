@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using api2.models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +11,8 @@ namespace api2.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    
+[ApiKey]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

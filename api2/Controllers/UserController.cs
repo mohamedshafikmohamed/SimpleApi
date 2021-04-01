@@ -15,12 +15,12 @@ namespace api2.Controllers
     {
     
         private UserRepos _userService;
-        private IMailService _mailService;
+      //  private IMailService _mailService;
         private IConfiguration _configuration;
         public UserController(UserRepos userService,  IConfiguration configuration)
         {
             _userService = userService;
-          //  _mailService = mailService;
+           //_mailService = mailService;
             _configuration = configuration;
         }
 
@@ -62,7 +62,7 @@ namespace api2.Controllers
         }
         
         // /api/auth/confirmemail?userid&token
-        [HttpGet("ConfirmEmail")]
+      /*  [HttpGet("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
@@ -77,7 +77,7 @@ namespace api2.Controllers
 
             return BadRequest(result);
         }
-
+      */
         // api/auth/forgetpassword
         [HttpPost("ForgetPassword")]
         public async Task<IActionResult> ForgetPassword(string email)

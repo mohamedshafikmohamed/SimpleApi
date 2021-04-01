@@ -16,7 +16,9 @@ namespace api2.Data
         }
         public DbSet<AssignTasks> Assigntasks { get; set; }
         public DbSet<Note> Notes { get; set; }
+        public DbSet<Board> Boards { get; set; }
         public DbSet<api2.models.Task> Tasks { get; set; }
+        public DbSet<api2.models.AssignBoard> AssignBoards { get; set; }
        
     }
 }
