@@ -3,6 +3,7 @@ using api2.models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +71,7 @@ namespace api2
              );
             services.AddScoped<ItemRepos, ITaskRepos>();
             services.AddScoped<UserRepos, IUserRepos>();
+            services.AddScoped<IMailService, SendGridMailService>();
             services.AddCors(options => {
                 options.AddPolicy("_myAllowSpecificOrigins", builder =>
 builder.AllowAnyOrigin()
@@ -94,6 +96,10 @@ builder.AllowAnyOrigin()
             app.UseCors("_myAllowSpecificOrigins");
             app.UseAuthentication();
             app.UseAuthorization();
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("MVC didn't find anything!");
+            });
 
             app.UseEndpoints(endpoints =>
             {

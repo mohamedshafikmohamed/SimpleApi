@@ -10,6 +10,7 @@ namespace api2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ApiKey]
     public class ItemController : ControllerBase
     {
         private readonly ItemRepos ITaskrepo;
@@ -29,11 +30,15 @@ namespace api2.Controllers
         [Route("GetUserInTask/{TaskId}")]
         public ActionResult<IEnumerable<api2.models.AssignTasks>> GetUserInTask(int TaskId)
         {
-           return Ok(ITaskrepo.GetAssignTask(TaskId));
+            if (ModelState.IsValid)
+            {
+                return Ok(ITaskrepo.GetAssignTask(TaskId));
+            }
+            return BadRequest("Some properties are not valid");
         }
 
         [HttpGet("{Id}")]
-        public ActionResult<api2.models.Task> GetTask( int id)
+        public ActionResult<api2.models.Task> GetTask(int id)
         {
            return Ok(ITaskrepo.GetTask(id));
         }
@@ -56,53 +61,113 @@ namespace api2.Controllers
         {
            return Ok(ITaskrepo.GetBoardsinBoard(Id));
         } 
+        [HttpGet]
+        [Route("GetLinksinBoard/{Id}")]
+        public ActionResult<api2.models.Link> GetlinksinBoard(int Id)
+        {
+           return Ok(ITaskrepo.GetLinksinBoard(Id));
+        } 
         [HttpPut]
         public ActionResult<api2.models.Task> updateTask(api2.models.Task task)
         {
-            ITaskrepo.updateTask(task);
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.updateTask(task);
 
-           return Ok();
+                return Ok();
+            }
+            else return BadRequest("Some properties are not valid");
         } 
         [HttpPut]
         [Route("Note")]
         public ActionResult<api2.models.Task> updateNote(api2.models.Note note)
         {
-            ITaskrepo.updateNotes(note);
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.updateNotes(note);
 
-           return Ok();
+
+                return Ok();
+            }
+            else return BadRequest("Some properties are not valid");
         } 
         [HttpPut]
         [Route("Board")]
         public ActionResult<api2.models.Task> updateBoard(api2.models.Board board)
         {
-            ITaskrepo.updateBoard(board);
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.updateBoard(board);
 
-           return Ok();
+
+                return Ok();
+            }
+            else return BadRequest("Some properties are not valid");
+        } 
+        [HttpPut]
+        [Route("Link")]
+        public ActionResult<api2.models.Link> updateLink(api2.models.Link link)
+        {
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.updateLink(link);
+
+                return Ok();
+            }
+            else return BadRequest("Some properties are not valid");
         } 
         [HttpPost]
         [Route("Board")]
-        public ActionResult<api2.models.Task> CreateBoard(api2.models.Board board)
+        public ActionResult<api2.models.Board> CreateBoard(api2.models.Board board)
         {
-            ITaskrepo.createBoard(board);
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.createBoard(board);
 
-           return Ok();
+
+                return Ok();
+
+            }
+            else return BadRequest("Some properties are not valid");
+
         } 
         
         [HttpPost]
         public ActionResult<api2.models.Task> CreateTask(api2.models.Task task)
         {
-            ITaskrepo.createTask(task);
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.createTask(task);
 
-           return Ok();
+                return Ok();
+            }
+            else return BadRequest("Some properties are not valid");
         } 
         
         [HttpPost]
         [Route("Note")]
         public ActionResult<api2.models.Note> CreateNote(api2.models.Note note)
         {
-            ITaskrepo.createNotes(note);
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.createNotes(note);
 
-           return Ok();
+
+                return Ok();
+            }
+            else return BadRequest("Some properties are not valid");
+        } 
+        [HttpPost]
+        [Route("Link")]
+        public ActionResult<api2.models.Link> CreateLink(api2.models.Link link)
+        {
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.createLink(link);
+
+                return Ok();
+            }
+            else return BadRequest("Some properties are not valid");
         } 
         [HttpDelete("{Id}")]
         public ActionResult<api2.models.Task> DeleteTask(int id)
@@ -123,6 +188,15 @@ namespace api2.Controllers
         {
            
                 ITaskrepo.DeleteBoard(id);
+
+           
+           return Ok();
+        } [HttpDelete]
+        [Route("Link/{Id}")]
+        public ActionResult<api2.models.Link> DeleteLink(int id)
+        {
+           
+                ITaskrepo.DeleteLink(id);
 
            
            return Ok();

@@ -9,10 +9,11 @@ namespace api2.models
     public class Task
     {
         public int Id { get; set; }
+        [Required]
         public int BoardId { get; set; }
         [Required]
         public int Index { get; set; }
-        
+        [Required]
         public string Title { get; set; }
         public string Type { get; set; }
         public string Status { get; set; }

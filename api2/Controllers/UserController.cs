@@ -15,7 +15,7 @@ namespace api2.Controllers
     {
     
         private UserRepos _userService;
-      //  private IMailService _mailService;
+        //  private IMailService _mailService;
         private IConfiguration _configuration;
         public UserController(UserRepos userService,  IConfiguration configuration)
         {
@@ -60,28 +60,29 @@ namespace api2.Controllers
 
             return BadRequest("Some properties are not valid");
         }
-        
+
         // /api/auth/confirmemail?userid&token
-      /*  [HttpGet("ConfirmEmail")]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
-        {
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
-                return NotFound();
+        /*   [HttpGet("ConfirmEmail")]
+ public async Task<IActionResult> ConfirmEmail(string userId, string token)
+      {
+          if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
+              return NotFound();
 
-            var result = await _userService.ConfirmEmailAsync(userId, token);
+          var result = await _userService.ConfirmEmailAsync(userId, token);
 
-            if (result.IsSuccess)
-            {
-                return Redirect($"{_configuration["AppUrl"]}/ConfirmEmail.html");
-            }
+          if (result.IsSuccess)
+          {
+              return Redirect($"{_configuration["AppUrl"]}/ConfirmEmail.html");
+          }
 
-            return BadRequest(result);
-        }
-      */
+          return BadRequest(result);
+      }
+    */
         // api/auth/forgetpassword
         [HttpPost("ForgetPassword")]
         public async Task<IActionResult> ForgetPassword(string email)
         {
+            email = "mohamed.shafik@m-eight.com";
             if (string.IsNullOrEmpty(email))
                 return NotFound();
 

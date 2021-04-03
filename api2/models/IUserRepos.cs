@@ -16,12 +16,12 @@ namespace api2.models
     {
         private UserManager<IdentityUser> _userManger;
         private IConfiguration _configuration;
-     //   private IMailService _mailService;
-        public IUserRepos(UserManager<IdentityUser> userManager, IConfiguration configuration/*, IMailService mailService*/)
+      private IMailService _mailService;
+        public IUserRepos(UserManager<IdentityUser> userManager, IConfiguration configuration, IMailService mailService)
         {
             _userManger = userManager;
             _configuration = configuration;
-          //  _mailService = mailService;
+            _mailService = mailService;
         }
 
         public async Task<UserManagerResponse> RegisterUserAsync(RegisterViewModel model)
@@ -163,12 +163,9 @@ namespace api2.models
             var token = await _userManger.GeneratePasswordResetTokenAsync(user);
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
-
             string url = $"{_configuration["AppUrl"]}/ResetPassword?email={email}&token={validToken}";
-
-           // await _mailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
-             //   $"<p>To reset your password <a href='{url}'>Click here</a></p>");
-
+             _mailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
+           $"<p>To reset your password <a href='{url}'>Click here</a></p>");
             return new UserManagerResponse
             {
                 IsSuccess = true,

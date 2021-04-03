@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace api2.models
 {
-    public class Note
+    public class Link
     {
+
 
         public int Id { get; set; }
         [Required]
@@ -15,6 +16,9 @@ namespace api2.models
         [Required]
         public int Index { get; set; }
         [Required]
-        public string Title { get; set; }
+        public string link { get; set; }
+
+
+
     }
 }

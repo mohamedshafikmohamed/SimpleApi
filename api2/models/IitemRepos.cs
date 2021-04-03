@@ -70,7 +70,14 @@ namespace api2.models
         {
             return db.Boards.Where(x => x.BoardId == Id).ToList();
         }
-
+        public IEnumerable<Link> GetLinksinBoard(int Id)
+        {
+            return db.Linkes.Where(x => x.BoardId == Id).ToList();
+        }
+        public IEnumerable<Images> GetImagesinBoard(int Id)
+        {
+            return db.images.Where(x => x.BoardId == Id).ToList();
+        }
         public void updateTask(Task task)
         {
             db.Tasks.Update(task);
@@ -112,6 +119,31 @@ namespace api2.models
         {
             db.Boards.Remove(db.Boards.Find(id));
             db.SaveChanges();
+        }
+        public void createLink(Link link)
+        {
+            db.Linkes.Add(link);
+            db.SaveChanges();
+        }
+
+        public void updateLink(Link link)
+        {
+            db.Linkes.Update(link);
+            db.SaveChanges();
+        }
+
+        public void DeleteLink(int id)
+        {
+            db.Linkes.Remove(db.Linkes.Find(id));
+            db.SaveChanges();
+        }
+
+        public IEnumerable<Board> SearchForBoard(string Title, string Email)
+        {
+            /* int id=  db.AssignBoards.Where(X => X.Email == Email).FirstOrDefault().BoardId;
+               db.Boards
+            */
+            return null;
         }
     }
 }
