@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace api2.models
 {
-    public class Images
+    public class ImageViewModel
     {
         public int Id { get; set; }
         [Required]
@@ -15,7 +15,6 @@ namespace api2.models
         [Required]
         public int Index { get; set; }
         [Required]
-        public byte[] Image { get; set;  }
-
+        public IFormFile files { get; set; }
     }
 }

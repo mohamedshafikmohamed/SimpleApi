@@ -1,6 +1,8 @@
 ﻿using api2.Data;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,8 +18,11 @@ namespace api2.models
 
         public void AddAssignTask(AssignTasks assignTasks)
         {
+
             db.Assigntasks.Add(assignTasks);
+
             db.SaveChanges();
+
         }
         public IEnumerable<AssignTasks> GetAssignTask(int TaskId)
         {
@@ -87,8 +92,10 @@ namespace api2.models
      
         public void createNotes(Note note)
         {
+
             db.Notes.Add(note);
             db.SaveChanges();
+        
         }
 
         public void updateNotes(Note note)
@@ -111,8 +118,11 @@ namespace api2.models
 
         public void updateBoard(Board board)
         {
+            
             db.Boards.Update(board);
+
             db.SaveChanges();
+        
         }
 
         public void DeleteBoard(int id)
@@ -144,6 +154,108 @@ namespace api2.models
                db.Boards
             */
             return null;
+        }
+
+        public async void createImage([FromBody] ImageViewModel model)
+        {
+            
+            Images img = new Images();
+            img.BoardId = model.BoardId;
+            img.Id = model.Id;
+            img.Index = model.Index;
+            if(model.files.Length>0)
+            {
+
+                 using(var stream =new MemoryStream())
+                {
+
+                    await model.files.CopyToAsync(stream);
+                    img.Image = stream.ToArray();
+
+                }
+            }
+            db.images.Add(img);
+            db.SaveChanges();
+        }
+
+        public async void updateImage([FromBody] ImageViewModel model)
+        {
+            Images img = new Images();
+            img.BoardId = model.BoardId;
+            img.Id = model.Id;
+            img.Index = model.Index;
+            if (model.files.Length > 0)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await model.files.CopyToAsync(stream);
+                    img.Image = stream.ToArray();
+
+                }
+
+            }
+            db.images.Update(img);
+            db.SaveChanges();
+        }
+
+        public void DeleteImage(int id)
+        {
+          db.images.Remove(db.images.Find(id));
+
+            db.SaveChanges();
+        }
+        public async void createFile([FromBody] FileViewModel model)
+        {
+
+
+            File file = new File();
+            file.BoardId = model.BoardId;
+            file.Id = model.Id;
+            file.Index = model.Index;
+            using (var memoryStream = new MemoryStream())
+            {
+                await model.file.CopyToAsync(memoryStream);
+
+                // Upload the file if less than 20 MB
+                if (memoryStream.Length < 2097152)
+                {
+                    file.file = memoryStream.ToArray();
+                }
+               
+            }
+            db.Files.Add(file);
+            db.SaveChanges();
+        }
+
+        public async void updateFile([FromBody] FileViewModel model)
+        {
+
+            File file = new File();
+            file.BoardId = model.BoardId;
+            file.Id = model.Id;
+            file.Index = model.Index;
+            using (var memoryStream = new MemoryStream())
+            {
+                await model.file.CopyToAsync(memoryStream);
+
+                // Upload the file if less than 2 MB
+                if (memoryStream.Length < 2097152)
+                {
+
+                    file.file = memoryStream.ToArray();
+                
+                }
+
+            }
+            db.Files.Update(file);
+            db.SaveChanges();
+        }
+
+        public void DeleteFile(int id)
+        {
+          db.Files.Remove(db.Files.Find(id));
+
+            db.SaveChanges();
         }
     }
 }

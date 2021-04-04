@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace api2.models
 {
-    public class Images
+    public class FileViewModel
     {
+
         public int Id { get; set; }
         [Required]
         public int BoardId { get; set; }
         [Required]
         public int Index { get; set; }
         [Required]
-        public byte[] Image { get; set;  }
-
+        public IFormFile file { get; set; }
     }
 }

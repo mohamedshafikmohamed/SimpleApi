@@ -20,6 +20,7 @@ namespace api2.Data
         public DbSet<Link> Linkes { get; set; }
         public DbSet<Board> Boards { get; set; }
         public DbSet<Images> images { get; set; }
+        public DbSet<File> Files { get; set; }
         public DbSet<api2.models.Task> Tasks { get; set; }
      
        

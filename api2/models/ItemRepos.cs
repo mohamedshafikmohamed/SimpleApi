@@ -11,7 +11,7 @@ namespace api2.models
         public IEnumerable<Task> GetTasksinBoard(int Id);
         public IEnumerable<Note> GetNotesinBoard(int Id);
         public IEnumerable<Board> GetBoardsinBoard(int Id);
-        public IEnumerable<Link> GetLinksinBoard(int Id);
+        public IEnumerable<Link>  GetLinksinBoard(int Id);
         public IEnumerable<Images> GetImagesinBoard(int Id);
         public IEnumerable<Board> SearchForBoard(string Title,string Email);
         public  Task GetTask(int id);
@@ -25,10 +25,16 @@ namespace api2.models
         public void createBoard(Board board);
         public void updateBoard(Board board);
         public  void DeleteBoard(int id);
+        public void createImage(ImageViewModel board);
+        public void updateImage(ImageViewModel board);
+        public  void DeleteImage(int id);
 
         public void createLink(Link link);
         public void updateLink(Link link);
         public  void DeleteLink(int id);
+        public void createFile(FileViewModel file);
+        public void updateFile(FileViewModel file);
+        public  void DeleteFile(int id);
        
         public void AddAssignTask(AssignTasks assignTasks);
         public IEnumerable<AssignTasks> GetAssignTask(int TaskId);

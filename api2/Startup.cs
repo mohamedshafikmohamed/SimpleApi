@@ -69,6 +69,7 @@ namespace api2
                  };
              }
              );
+
             services.AddScoped<ItemRepos, ITaskRepos>();
             services.AddScoped<UserRepos, IUserRepos>();
             services.AddScoped<IMailService, SendGridMailService>();
@@ -96,10 +97,7 @@ builder.AllowAnyOrigin()
             app.UseCors("_myAllowSpecificOrigins");
             app.UseAuthentication();
             app.UseAuthorization();
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("MVC didn't find anything!");
-            });
+          
 
             app.UseEndpoints(endpoints =>
             {

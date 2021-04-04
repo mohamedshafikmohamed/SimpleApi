@@ -116,6 +116,64 @@ namespace api2.Controllers
             }
             else return BadRequest("Some properties are not valid");
         } 
+        [HttpPut]
+        [Route("Image")]
+        public ActionResult<api2.models.Link> updateImage([FromForm] api2.models.ImageViewModel Image)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ITaskrepo.updateImage(Image);
+
+                    return Ok();
+                }
+                else return BadRequest("Some properties are not valid");
+            }
+            catch
+            {
+                return BadRequest("Some properties are not valid");
+            }
+        } 
+        [HttpPut]
+        [Route("File")]
+        public ActionResult<api2.models.Link> updateFile([FromForm] api2.models.FileViewModel file)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ITaskrepo.updateFile(file);
+
+                    return Ok();
+                }
+                else return BadRequest("Some properties are not valid");
+            }
+            catch
+            {
+                return BadRequest("Some properties are not valid");
+            }
+        } 
+        [HttpPost]
+        [Route("Image")]
+        public ActionResult<api2.models.Board> CreateImage([FromForm] api2.models.ImageViewModel Img)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ITaskrepo.createImage(Img);
+                    return Ok();
+
+                }
+                else return BadRequest("Some properties are not valid");
+            }
+            
+            catch
+            {
+                return BadRequest("Some properties are not valid");
+            }
+        } 
         [HttpPost]
         [Route("Board")]
         public ActionResult<api2.models.Board> CreateBoard(api2.models.Board board)
@@ -169,10 +227,22 @@ namespace api2.Controllers
             }
             else return BadRequest("Some properties are not valid");
         } 
+        [HttpPost]
+        [Route("File")]
+        public ActionResult<api2.models.File> CreateFile([FromForm] api2.models.FileViewModel file)
+        {
+            if (ModelState.IsValid)
+            {
+                ITaskrepo.createFile(file);
+
+                return Ok();
+            }
+            else return BadRequest("Some properties are not valid");
+        } 
         [HttpDelete("{Id}")]
         public ActionResult<api2.models.Task> DeleteTask(int id)
         {
-            ITaskrepo.DeleteTask(id);
+           ITaskrepo.DeleteTask(id);
            return Ok();
         }
         [HttpDelete("{Id}")]
@@ -196,7 +266,16 @@ namespace api2.Controllers
         public ActionResult<api2.models.Link> DeleteLink(int id)
         {
            
-                ITaskrepo.DeleteLink(id);
+           ITaskrepo.DeleteLink(id);
+           return Ok();
+        }
+        
+        [HttpDelete]
+        [Route("Image/{Id}")]
+        public ActionResult<api2.models.Link> DeleteImage(int id)
+        {
+           
+                ITaskrepo.DeleteImage(id);
 
            
            return Ok();
