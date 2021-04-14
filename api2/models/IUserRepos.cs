@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using api2.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -17,12 +18,33 @@ namespace api2.models
         private UserManager<IdentityUser> _userManger;
         private IConfiguration _configuration;
       private IMailService _mailService;
-        public IUserRepos(UserManager<IdentityUser> userManager, IConfiguration configuration, IMailService mailService)
+        private AppDbContext db;
+        public IUserRepos(UserManager<IdentityUser> userManager, IConfiguration configuration, IMailService mailService, AppDbContext _db)
         {
+            db = _db;
             _userManger = userManager;
             _configuration = configuration;
             _mailService = mailService;
         }
+        public IEnumerable<Project> SearchForProject(string Title, string Email)
+        {
+            List<Project> projects = new List<Project>();
+            var assignProjects = db.AssignProject.Where(X => X.Email == Email);
+            foreach (var i in assignProjects)
+            {
+                var project = db.Projects.Where(x=>x.BoardId==i.BoardId).FirstOrDefault();
+                if (project.Title.Contains(Title))
+                {
+
+                    projects.Add(project);
+
+                }
+            }
+
+
+            return projects;
+        }
+
 
         public async Task<UserManagerResponse> RegisterUserAsync(RegisterViewModel model)
         {
@@ -34,7 +56,7 @@ namespace api2.models
                 {
                     Message = "Confirm password doesn't match the password",
                     IsSuccess = false,
-                };
+                 };
 
             var identityUser = new IdentityUser
             {
@@ -50,12 +72,11 @@ namespace api2.models
 
                 var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
                 var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
+                string url = $"{_configuration["AppUrl"]}api/user/ConfirmEmail?userid={identityUser.Id}&token={validEmailToken}";
 
-                string url = $"{_configuration["AppUrl"]}/api/auth/confirmemail?userid={identityUser.Id}&token={validEmailToken}";
-
-             /*   await _mailService.SendEmailAsync(identityUser.Email, "Confirm your email", $"<h1>Welcome to Auth Demo</h1>" +
+                 _mailService.SendEmailAsync(identityUser.Email, "Confirm your email", $"<h1>Welcome to Auth Demo</h1>" +
                     $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
-             */
+            
 
                 return new UserManagerResponse
                 {
@@ -97,8 +118,8 @@ namespace api2.models
 
             var claims = new[]
             {
-                new Claim("Email", model.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
+               
+                new Claim("UserId", user.Id),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthSettings:Key"]));
@@ -119,7 +140,7 @@ namespace api2.models
                 ExpireDate = token.ValidTo
             };
         }
-
+   
         public async Task<UserManagerResponse> ConfirmEmailAsync(string userId, string token)
         {
             var user = await _userManger.FindByIdAsync(userId);
@@ -163,7 +184,7 @@ namespace api2.models
             var token = await _userManger.GeneratePasswordResetTokenAsync(user);
             var encodedToken = Encoding.UTF8.GetBytes(token);
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
-            string url = $"{_configuration["AppUrl"]}/ResetPassword?email={email}&token={validToken}";
+            string url = $"{_configuration["AppUrl"]}resetpassword?email={email}&token={validToken}";
              _mailService.SendEmailAsync(email, "Reset Password", "<h1>Follow the instructions to reset your password</h1>" +
            $"<p>To reset your password <a href='{url}'>Click here</a></p>");
             return new UserManagerResponse
@@ -208,6 +229,13 @@ namespace api2.models
                 IsSuccess = false,
                 Errors = result.Errors.Select(e => e.Description),
             };
+        }
+
+        public  IdentityUser GetUser(string id)
+        {
+           
+            var user = db.Users.Find(id);
+            return user;
         }
     }
 }

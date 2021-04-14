@@ -28,14 +28,14 @@ namespace api2.models
         {
           return  db.Assigntasks.Where(x => x.TaskId == TaskId).ToList();
         }
-        public void AddAssignBoard(AssignBoard assignBoard)
+        public void AddAssignProject(AssignProject assignproject)
         {
-            db.AssignBoards.Add(assignBoard);
+            db.AssignProject.Add(assignproject);
             db.SaveChanges();
         }
-        public IEnumerable<AssignBoard> GetAssignBoard(int BoardId)
+        public IEnumerable<AssignProject> GetAssignProject(int BoardId)
         {
-          return  db.AssignBoards.Where(x => x.BoardId == BoardId).ToList();
+          return  db.AssignProject.Where(x => x.BoardId == BoardId).ToList();
         }
        
 
@@ -63,23 +63,23 @@ namespace api2.models
             return db.Tasks.ToList();
         }
 
-        public IEnumerable<Task> GetTasksinBoard(int Id)
+        public IEnumerable<Task> GetTasksinProject(int Id)
         {
             return db.Tasks.Where(x => x.BoardId == Id).ToList();
         }
-        public IEnumerable<Note> GetNotesinBoard(int Id)
+        public IEnumerable<Note> GetNotesinProject(int Id)
         {
             return db.Notes.Where(x => x.BoardId == Id).ToList();
         }
-        public IEnumerable<Board> GetBoardsinBoard(int Id)
+        public IEnumerable<Project> GetBoardsinProject(int Id)
         {
-            return db.Boards.Where(x => x.BoardId == Id).ToList();
+            return db.Projects.Where(x => x.BoardId == Id).ToList();
         }
-        public IEnumerable<Link> GetLinksinBoard(int Id)
+        public IEnumerable<Link> GetLinksinProject(int Id)
         {
             return db.Linkes.Where(x => x.BoardId == Id).ToList();
         }
-        public IEnumerable<Images> GetImagesinBoard(int Id)
+        public IEnumerable<Images> GetImagesinProject(int Id)
         {
             return db.images.Where(x => x.BoardId == Id).ToList();
         }
@@ -110,24 +110,24 @@ namespace api2.models
             db.SaveChanges();
         }
         
-        public void createBoard(Board board)
+        public void createProject(Project board)
         {
-            db.Boards.Add(board);
+            db.Projects.Add(board);
             db.SaveChanges();
         }
 
-        public void updateBoard(Board board)
+        public void updateProject(Project board)
         {
             
-            db.Boards.Update(board);
+            db.Projects.Update(board);
 
             db.SaveChanges();
         
         }
 
-        public void DeleteBoard(int id)
+        public void DeleteProject(int id)
         {
-            db.Boards.Remove(db.Boards.Find(id));
+            db.Projects.Remove(db.Projects.Find(id));
             db.SaveChanges();
         }
         public void createLink(Link link)
@@ -148,13 +148,7 @@ namespace api2.models
             db.SaveChanges();
         }
 
-        public IEnumerable<Board> SearchForBoard(string Title, string Email)
-        {
-            /* int id=  db.AssignBoards.Where(X => X.Email == Email).FirstOrDefault().BoardId;
-               db.Boards
-            */
-            return null;
-        }
+       
 
         public async void createImage([FromBody] ImageViewModel model)
         {
@@ -238,8 +232,8 @@ namespace api2.models
             {
                 await model.file.CopyToAsync(memoryStream);
 
-                // Upload the file if less than 2 MB
-                if (memoryStream.Length < 2097152)
+                // Upload the file if less than 20 MB
+                if (memoryStream.Length < 20097152)
                 {
 
                     file.file = memoryStream.ToArray();

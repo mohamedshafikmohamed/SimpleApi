@@ -1,5 +1,7 @@
 ﻿using api2.models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -15,15 +17,34 @@ namespace api2.Controllers
     {
     
         private UserRepos _userService;
-        //  private IMailService _mailService;
+         private IMailService _mailService;
         private IConfiguration _configuration;
-        public UserController(UserRepos userService,  IConfiguration configuration)
+        UserManager<IdentityUser> _usermanager;
+        public UserController(UserRepos userService,  IConfiguration configuration,UserManager<IdentityUser> usermanager, IMailService mailService)
         {
             _userService = userService;
-           //_mailService = mailService;
+           _mailService = mailService;
             _configuration = configuration;
+            _usermanager = usermanager;
         }
 
+        // /api/User/Search
+        [HttpGet("Search")]
+        public async Task<IActionResult> SearchForProject(string title ,string email)
+        {
+            if (title!=null&& email !=null)
+            {
+                var result = _userService.SearchForProject(title, email);
+
+               
+                    return Ok(result); // Status Code: 200 
+
+               
+            }
+
+            return BadRequest("Some properties are not valid");
+        }
+        
         // /api/auth/register
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel model)
@@ -51,7 +72,7 @@ namespace api2.Controllers
 
                 if (result.IsSuccess)
                 {
-                  //  await _mailService.SendEmailAsync(model.Email, "New login", "<h1>Hey!, new login to your account noticed</h1><p>New login to your account at " + DateTime.Now + "</p>");
+                    _mailService.SendEmailAsync(model.Email, "New login", "<h1>Hey!, new login to your account noticed</h1><p>New login to your account at " + DateTime.Now + "</p>");
                     return Ok(result);
                 }
 
@@ -60,10 +81,21 @@ namespace api2.Controllers
 
             return BadRequest("Some properties are not valid");
         }
+        [HttpGet("GetProfile")]
 
-        // /api/auth/confirmemail?userid&token
-        /*   [HttpGet("ConfirmEmail")]
- public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        public async Task<IActionResult> GetProfile( )
+        {
+
+            string u = User.Claims.First(c => c.Type == "UserId").Value;
+            var x =  _userService.GetUser(u);
+            return Ok(x.Email);
+
+
+        }
+
+        // /api/user/confirmemail?userid&token
+       [HttpGet("ConfirmEmail")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
       {
           if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
               return NotFound();
@@ -77,12 +109,12 @@ namespace api2.Controllers
 
           return BadRequest(result);
       }
-    */
+    
         // api/auth/forgetpassword
         [HttpPost("ForgetPassword")]
         public async Task<IActionResult> ForgetPassword(string email)
         {
-            email = "mohamed.shafik@m-eight.com";
+           // email = "mohamed.shafik@m-eight.com";
             if (string.IsNullOrEmpty(email))
                 return NotFound();
 

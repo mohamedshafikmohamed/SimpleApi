@@ -1,0 +1,21 @@
+﻿@page "/counter"
+@using System.Net.Http
+@inject HttpClient Http
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    private int currentCount = 0;
+
+    private async void IncrementCount()
+    {
+        var x = new Note { BoardId = 4, Index = 4, Title = "ghghgh" };
+       
+        var x2=await Http.GetAsync("https://localhost:44398/api/item/note");
+    }
+}

@@ -38,6 +38,9 @@ namespace api2
             options.UseSqlServer(
                 Configuration.GetConnectionString("MilanoteApitest")));
             services.AddControllers();
+            /*services.AddControllersWithViews()
+    .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);*/
             services.AddIdentity<IdentityUser, IdentityRole>(
 
                 options =>
@@ -69,7 +72,7 @@ namespace api2
                  };
              }
              );
-
+            services.AddRazorPages();
             services.AddScoped<ItemRepos, ITaskRepos>();
             services.AddScoped<UserRepos, IUserRepos>();
             services.AddScoped<IMailService, SendGridMailService>();
@@ -97,11 +100,13 @@ builder.AllowAnyOrigin()
             app.UseCors("_myAllowSpecificOrigins");
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseStaticFiles();
           
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }

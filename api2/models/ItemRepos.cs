@@ -8,12 +8,12 @@ namespace api2.models
   public  interface ItemRepos
     {
        public IEnumerable<Task> GetTasks();
-        public IEnumerable<Task> GetTasksinBoard(int Id);
-        public IEnumerable<Note> GetNotesinBoard(int Id);
-        public IEnumerable<Board> GetBoardsinBoard(int Id);
-        public IEnumerable<Link>  GetLinksinBoard(int Id);
-        public IEnumerable<Images> GetImagesinBoard(int Id);
-        public IEnumerable<Board> SearchForBoard(string Title,string Email);
+        public IEnumerable<Task> GetTasksinProject(int Id);
+        public IEnumerable<Note> GetNotesinProject(int Id);
+        public IEnumerable<Project> GetBoardsinProject(int Id);
+        public IEnumerable<Link> GetLinksinProject(int Id);
+        public IEnumerable<Images> GetImagesinProject(int Id);
+       
         public  Task GetTask(int id);
         public void createTask(Task task);
         public void updateTask(Task task);
@@ -22,9 +22,9 @@ namespace api2.models
         public void createNotes(Note note);
         public void updateNotes(Note note);
         public  void DeleteNotes(int id);
-        public void createBoard(Board board);
-        public void updateBoard(Board board);
-        public  void DeleteBoard(int id);
+        public void createProject(Project board);
+        public void updateProject(Project board);
+        public  void DeleteProject(int id);
         public void createImage(ImageViewModel board);
         public void updateImage(ImageViewModel board);
         public  void DeleteImage(int id);
@@ -38,7 +38,7 @@ namespace api2.models
        
         public void AddAssignTask(AssignTasks assignTasks);
         public IEnumerable<AssignTasks> GetAssignTask(int TaskId);
-        public void AddAssignBoard(AssignBoard assignBoard);
-        public IEnumerable<AssignBoard> GetAssignBoard(int BoardId);
+        public void AddAssignProject(AssignProject assignproject);
+        public IEnumerable<AssignProject> GetAssignProject(int BoardId);
     }
 }

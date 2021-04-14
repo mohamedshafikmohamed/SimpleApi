@@ -10,7 +10,7 @@ namespace api2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ApiKey]
+
     public class ItemController : ControllerBase
     {
         private readonly ItemRepos ITaskrepo;
@@ -41,31 +41,32 @@ namespace api2.Controllers
         public ActionResult<api2.models.Task> GetTask(int id)
         {
            return Ok(ITaskrepo.GetTask(id));
+         
         }
 
         [HttpGet]
-        [Route("GetTasksinBoard/{Id}")]
-        public ActionResult<api2.models.Task> GetTasksinBoard(int Id)
+        [Route("GetTasksinProject/{Id}")]
+        public ActionResult<api2.models.Task> GetTasksinProject(int Id)
         {
-           return Ok(ITaskrepo.GetTasksinBoard(Id));
+           return Ok(ITaskrepo.GetTasksinProject(Id));
         } 
         [HttpGet]
-        [Route("GetNotesinBoard/{Id}")]
-        public ActionResult<api2.models.Note> GetNotesinBoard(int Id)
+        [Route("GetNotesinProject/{Id}")]
+        public ActionResult<api2.models.Note> GetNotesinProject(int Id)
         {
-           return Ok(ITaskrepo.GetNotesinBoard(Id));
+           return Ok(ITaskrepo.GetNotesinProject(Id));
         } 
         [HttpGet]
-        [Route("GetBoardsinBoard/{Id}")]
-        public ActionResult<api2.models.Board> GetBoardsinBoard(int Id)
+        [Route("GetBoardsinProject/{Id}")]
+        public ActionResult<api2.models.Project> GetBoardsinProject(int Id)
         {
-           return Ok(ITaskrepo.GetBoardsinBoard(Id));
+           return Ok(ITaskrepo.GetBoardsinProject(Id));
         } 
         [HttpGet]
-        [Route("GetLinksinBoard/{Id}")]
-        public ActionResult<api2.models.Link> GetlinksinBoard(int Id)
+        [Route("GetLinksinProject/{Id}")]
+        public ActionResult<api2.models.Link> GetlinksinProject(int Id)
         {
-           return Ok(ITaskrepo.GetLinksinBoard(Id));
+           return Ok(ITaskrepo.GetLinksinProject(Id));
         } 
         [HttpPut]
         public ActionResult<api2.models.Task> updateTask(api2.models.Task task)
@@ -78,6 +79,7 @@ namespace api2.Controllers
             }
             else return BadRequest("Some properties are not valid");
         } 
+
         [HttpPut]
         [Route("Note")]
         public ActionResult<api2.models.Task> updateNote(api2.models.Note note)
@@ -91,19 +93,21 @@ namespace api2.Controllers
             }
             else return BadRequest("Some properties are not valid");
         } 
+
         [HttpPut]
-        [Route("Board")]
-        public ActionResult<api2.models.Task> updateBoard(api2.models.Board board)
+        [Route("Project")]
+        public ActionResult<api2.models.Task> updateProject(api2.models.Project board)
         {
             if (ModelState.IsValid)
             {
-                ITaskrepo.updateBoard(board);
+                ITaskrepo.updateProject(board);
 
 
                 return Ok();
             }
             else return BadRequest("Some properties are not valid");
-        } 
+        }
+        
         [HttpPut]
         [Route("Link")]
         public ActionResult<api2.models.Link> updateLink(api2.models.Link link)
@@ -156,7 +160,7 @@ namespace api2.Controllers
         } 
         [HttpPost]
         [Route("Image")]
-        public ActionResult<api2.models.Board> CreateImage([FromForm] api2.models.ImageViewModel Img)
+        public ActionResult<api2.models.Project> CreateImage([FromForm] api2.models.ImageViewModel Img)
         {
             try
             {
@@ -176,11 +180,11 @@ namespace api2.Controllers
         } 
         [HttpPost]
         [Route("Board")]
-        public ActionResult<api2.models.Board> CreateBoard(api2.models.Board board)
+        public ActionResult<api2.models.Project> CreateBoard(api2.models.Project board)
         {
             if (ModelState.IsValid)
             {
-                ITaskrepo.createBoard(board);
+                ITaskrepo.createProject(board);
 
 
                 return Ok();
@@ -204,13 +208,12 @@ namespace api2.Controllers
         
         [HttpPost]
         [Route("Note")]
+
         public ActionResult<api2.models.Note> CreateNote(api2.models.Note note)
         {
             if (ModelState.IsValid)
             {
                 ITaskrepo.createNotes(note);
-
-
                 return Ok();
             }
             else return BadRequest("Some properties are not valid");
@@ -254,10 +257,10 @@ namespace api2.Controllers
         }
         [HttpDelete]
         [Route("Board/{Id}")]
-        public ActionResult<api2.models.Board> DeleteBoard(int id)
+        public ActionResult<api2.models.Project> DeleteBoard(int id)
         {
            
-                ITaskrepo.DeleteBoard(id);
+                ITaskrepo.DeleteProject(id);
 
            
            return Ok();
@@ -276,6 +279,16 @@ namespace api2.Controllers
         {
            
                 ITaskrepo.DeleteImage(id);
+
+           
+           return Ok();
+        }
+        [HttpDelete]
+        [Route("File/{Id}")]
+        public ActionResult<api2.models.Link> DeleteFile(int id)
+        {
+           
+                ITaskrepo.DeleteFile(id);
 
            
            return Ok();

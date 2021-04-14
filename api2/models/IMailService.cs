@@ -27,7 +27,7 @@ namespace api2.models
         {
             var apiKey = _configuration["SendGridAPIKey"];
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("test@authdemo.com", "JWT Auth Demo");
+            var from = new EmailAddress("mohamedalaa447447@gmail.com", "M-eigth System");
             var to = new EmailAddress(toEmail);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, content, content);
             var response = await client.SendEmailAsync(msg);

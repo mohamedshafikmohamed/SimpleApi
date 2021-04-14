@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<script>
+    function loadNote() {
+
+
+        let notes;
+
+
+        $.ajax({
+            type: "GET",
+            url: "https://localhost:44398/api/item/GetNotesinBoard/138",
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (result) {
+                for (var i = 0; i < 10; i++) {
+                    notes = result[i];
+                    console.log(result);
+                    var ec = result[i].title;
+                    console.log(ec);
+
+                    var node = document.createElement("LI");
+                    var x = document.getElementById('board');
+                    console.log(notes);
+                    // var s = notes.BoardId;
+                    var textnode = document.createTextNode(ec);
+                    x.appendChild(textnode);
+
+                }
+                }
+        });
+
+
+      
+
+    }
+
+
+    function CreateNote() {
+        var d = {
+
+            "BoardId": 138,
+            "Index": 182323,
+            "Title": "hady"
+        };
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:44398/api/item/note/",
+            dataType: 'json',
+            data: JSON.stringify(d),
+            contentType: "application/json",
+            success: function (result) {
+                console.log(result + "good");
+            }
+
+        
+
+
+            });
+
+        
+    loadNote();
+
+    }
+   
+
+</script>
+<div class="text-center">
+   <ul>
+       <li><button onclick="CreateNote()">note</button></li>
+       <li><button>Board</button></li>
+       <li><button>Task</button></li>
+       <li><button>Link </button></li>
+   </ul>
+</div>
+<div id="board">
+    <label id="l"></label>
+</div>

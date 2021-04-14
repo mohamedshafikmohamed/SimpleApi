@@ -215,7 +215,7 @@ namespace api2.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("api2.models.AssignBoard", b =>
+            modelBuilder.Entity("api2.models.AssignProject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,7 +231,7 @@ namespace api2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AssignBoards");
+                    b.ToTable("AssignProject");
                 });
 
             modelBuilder.Entity("api2.models.AssignTasks", b =>
@@ -251,31 +251,6 @@ namespace api2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assigntasks");
-                });
-
-            modelBuilder.Entity("api2.models.Board", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BoardId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Index")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Boards");
                 });
 
             modelBuilder.Entity("api2.models.File", b =>
@@ -366,6 +341,35 @@ namespace api2.Migrations
                     b.ToTable("Notes");
                 });
 
+            modelBuilder.Entity("api2.models.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BoardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
+                });
+
             modelBuilder.Entity("api2.models.Task", b =>
                 {
                     b.Property<int>("Id")
@@ -384,9 +388,6 @@ namespace api2.Migrations
 
                     b.Property<int>("Index")
                         .HasColumnType("int");
-
-                    b.Property<string>("Link")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Priority")
                         .HasColumnType("nvarchar(max)");
