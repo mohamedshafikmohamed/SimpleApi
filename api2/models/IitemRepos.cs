@@ -165,7 +165,6 @@ namespace api2.models
 
                     await model.files.CopyToAsync(stream);
                     img.Image = stream.ToArray();
-
                 }
             }
             db.images.Add(img);
@@ -186,7 +185,6 @@ namespace api2.models
                     img.Image = stream.ToArray();
 
                 }
-
             }
             db.images.Update(img);
             db.SaveChanges();
